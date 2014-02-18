@@ -1,0 +1,5 @@
+.project
+.classpath
+exit
+*.log
+.DS_Store
