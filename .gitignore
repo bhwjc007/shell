@@ -3,3 +3,5 @@
 exit
 *.log
 .DS_Store
+*.iml
+.idea/*
