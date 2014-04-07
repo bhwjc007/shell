@@ -1,0 +1,103 @@
+<html>
+<head>
+    <title>Example</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <link href="http://cdn.staticfile.org/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.staticfile.org/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/jquery.qeditor.css" rel="stylesheet" />
+
+    <script src="./js/jquery.min.js" rel="script" ></script>
+    <script src="./js/jquery.qeditor.js" rel="script" ></script>
+
+    <script type="text/javascript">
+        try{
+            $("#post_body").qeditor({});
+        }catch(e){
+            alert(e.message);
+        }
+
+        var toolbar = $("#post_body").parent().find(".qeditor_toolbar");
+        var link = $("<a href='#'><span class='icon-file'></span></a>");
+        toolbar.append(link);
+        link.click(function(){
+            return Posts.dropdown_menu(this);
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="leftbox">
+    <div class="left_wrapper">
+
+        <form name="post" action="" method="post">
+
+        <table width="100%">
+            <tr width="100%">
+                <td class="name">标题:</td>
+                <td class="value">
+                    <input type="text" name="title" />
+                    <input type="hidden" name="id" />
+                </td>
+            </tr>
+            <tr width="100%">
+                <td class="name">作者:</td>
+                <td class="value">
+                    <input type="text" name="author" />
+                </td>
+            </tr>
+            <tr width="100%">
+                <td class="name">摘要:</td>
+                <td class="value">
+                    <input type="text" name="abstract" />
+                </td>
+            </tr>
+            <tr>
+                <td class="name">标签:</td>
+                <td class="value">
+                </td>
+            </tr>
+            <tr width="100%">
+                <td class="name" style="border:0px solid; vertical-align:top;">内容:</td>
+                <td class="value" style="border:0px solid #3322ff; vertical-align:top;">
+                    <textarea name="content" id="post_body" placeholder="写下你的生活"></textarea>
+                </td>
+            </tr>
+            <tr width="100%">
+                <td class="name"></td>
+                <td><button type="submit" class="button small left submit">更新</button></td>
+            </tr>
+        </table>
+
+        </form>
+    </div>
+</div>
+
+<div style="display:none" id="post_img_upload">
+
+    <div id="redirect_ask_panel" class="facebox_window simple_form">
+        <h2>上传文件</h2>
+        <form name="post" action="upload">
+
+        <div class="field">
+            <label>本地上传&nbsp;或&nbsp;引用外站图片:</label>
+            <%=f.file_field :image ,:class=>'img_input' %>
+        </div>
+        <div class="actions">
+            <button type="button" onclick="Posts.upload_img(this);">确定</button>
+            <a style="margin-left:10px;" onclick="$.facebox.close(); return false;" href="#">取消</a>
+        </div>
+
+        </form>
+
+        <!--用iframe实现无刷新上传-->
+        <iframe name="img_upload_ifm" style="display: none;" />
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
