@@ -5,3 +5,4 @@ exit
 .DS_Store
 *.iml
 .idea/*
+target/*
