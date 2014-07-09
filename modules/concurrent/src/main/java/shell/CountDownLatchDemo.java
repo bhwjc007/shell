@@ -4,6 +4,9 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * CountDownLatchDemo
+ * The startLatch that prevents any worker from proceeding
+ * util the main thread is ready for them to proceed.
+ * The main thread will be blocked util all doneLatch have completed.
  *
  * @author changming.Y <changming.yang.ah@gmail.com>
  * @since 2014-07-08
@@ -29,7 +32,6 @@ public class CountDownLatchDemo {
         System.out.println("All worker to be finished......");
 
     }
-
 }
 
 
