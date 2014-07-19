@@ -68,6 +68,7 @@
   交互时，由于操作比较耗时，防止多次执行触发操作重复后台执行（lock.tryLock()）
 
   * 如果某个资源已经被锁定，那么尝试等待一段时间，看是否可以获取锁，如果不行就放弃该资源，继续执行后续逻辑
+
         ReentrantLock lock = new ReentrantLock();
         if(lock.tryLock(5,TimeUnit.SECONDS)){
            try {
