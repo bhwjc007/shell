@@ -36,14 +36,11 @@
  另外，FutureTask还是对Runnable和Callable的一个封装，可以直接调用run方法执行任务，或者放入线程池中执行任务。即使多次执行run方法也会被视为执行一次任务调用。
 
 
-### Semaphone
-
-
 ### Condition
 
- 结合ReentrantLock使用，Condition condition = lock.newCondition();是线程间进行通信的一种机制，有选择的唤醒阻塞线程；
+ 结合ReentrantLock使用，Condition condition = lock.newCondition();是线程间进行通信的一种机制，即在同一个锁的情况ixa，有条件的唤醒或阻塞线程；
 
- 使用场景如下：线程获取reentrantlock锁之后，当条件未满足，或者已经满足，将本线程进行阻塞，等待被唤醒，此时释放锁，其他线程获取到该锁，然后根据条件进行判断，
+ 使用过程如下：线程获取reentrantlock锁之后，当条件未满足，或者已经满足，将本线程进行阻塞，等待被唤醒，此时释放锁，其他线程获取到该锁，然后根据条件进行判断，
  决定是否唤醒原来的线程，同时释放获取到的锁。
 
 
