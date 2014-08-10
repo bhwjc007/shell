@@ -16,7 +16,8 @@ public class TimeServerDemo {
         if(args!=null && args.length>0) {
             port = Integer.valueOf(args[0]);
         }
+
+        MultiplexerTimeServer multiplexerTimeServer = new MultiplexerTimeServer(8080);
+        new Thread(multiplexerTimeServer,"nio-timeserver-001").start();
     }
-
-
 }
