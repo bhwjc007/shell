@@ -2,10 +2,12 @@ package shell;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public class MultiplexerTimeServer implements Runnable {
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(new InetSocketAddress(port),1024);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-            System.out.println(".............The time server is starting in port : " + port );
+            System.out.println(".............The time server is starting on port : " + port );
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,6 +75,7 @@ public class MultiplexerTimeServer implements Runnable {
 
         if(key.isValid()) {
 
+            //connect event
             if(key.isAcceptable()) {
                 ServerSocketChannel serverSocketChannel1 = (ServerSocketChannel)key.channel();
                 SocketChannel socketChannel = serverSocketChannel1.accept();
@@ -80,8 +83,41 @@ public class MultiplexerTimeServer implements Runnable {
                 socketChannel.register(selector,SelectionKey.OP_READ);
             }
 
-            
+            //read event
+            if(key.isReadable()) {
+                SocketChannel socketChannel = (SocketChannel)key.channel();
+                ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+                int readBytes = socketChannel.read(readBuffer);
 
+                if(readBytes>0) {
+                    readBuffer.flip();
+                    byte[] bytes = new byte[readBuffer.remaining()];
+                    readBuffer.get(bytes);
+                    String body = new String(bytes,"UTF-8");
+                    System.out.println(".........The time server receive order : " + body);
+
+                    String currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
+                    //return time order
+                    doWrite(socketChannel,currentTime);
+
+                }else if(readBytes<0) {
+                    key.cancel();
+                    socketChannel.close();
+                }
+            }
+
+        }
+    }
+
+
+    private void doWrite(SocketChannel socketChannel, String response) throws IOException{
+
+        if(response!=null && response.trim().length()>0) {
+            byte[] bytes = response.getBytes();
+            ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);
+            writeBuffer.put(bytes);
+            writeBuffer.flip();
+            socketChannel.write(writeBuffer);
         }
     }
 
