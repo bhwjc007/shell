@@ -25,6 +25,12 @@ public class MultiplexerTimeServer implements Runnable {
 
     private volatile boolean stop;
 
+
+    /**
+     * Constructor
+     *
+     * @param port
+     */
     public MultiplexerTimeServer(int port) {
 
         try {
