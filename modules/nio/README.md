@@ -27,3 +27,7 @@ Selector上面可以同时轮询多个channel。
 ### SelectionKey
 
 标志channel上操作的某个状态，通过它可以获取多路复用器Selector上面的该状态位上的所有就绪channel集合。
+
+### Future
+
+代表IO操作的结果，通过该类可以获取操作结果，可以设置同步等待，异步获取，或者超时时间设置。
